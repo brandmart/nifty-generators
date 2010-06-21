@@ -5,14 +5,18 @@ require 'rails/generators/generated_attribute'
 module Nifty
   module Generators
     class ScaffoldGenerator < Base
-      include Rails::Generators::Migration
       no_tasks { attr_accessor :model_name, :model_attributes, :controller_actions }
+
+      check_class_collision
 
       argument :model_name, :type => :string, :required => true, :banner => 'ModelName'
       argument :args_for_c_m, :type => :array, :default => [], :banner => 'controller_actions and model:attributes'
+      
+      class_option :timestamps, :type => :boolean
+      class_option :parent,     :type => :string, :desc => "The parent class for the generated model"
+      class_option :versioning, :type => :boolean, :default => false, :desc => "Enable mongoid versioning"
 
-      class_option :skip_model, :desc => 'Don\'t generate a model or migration file.', :type => :boolean
-      class_option :skip_migration, :desc => 'Dont generate migration file for model.', :type => :boolean
+      class_option :skip_model, :desc => 'Don\'t generate a model.', :type => :boolean
       class_option :skip_timestamps, :desc => 'Don\'t add timestamps to migration file.', :type => :boolean
       class_option :skip_controller, :desc => 'Don\'t generate controller, helper, or views.', :type => :boolean
       class_option :invert, :desc => 'Generate all controller actions except these mentioned.', :type => :boolean
@@ -69,12 +73,6 @@ module Nifty
             template "tests/#{test_framework}/model.rb", "test/unit/#{singular_name}_test.rb"
             template 'fixtures.yml', "test/fixtures/#{plural_name}.yml"
           end
-        end
-      end
-
-      def create_migration
-        unless options.skip_model? || options.skip_migration?
-          migration_template 'migration.rb', "db/migrate/create_#{plural_name}.rb"
         end
       end
 
@@ -225,16 +223,6 @@ module Nifty
 
       def destination_path(path)
         File.join(destination_root, path)
-      end
-
-      # FIXME: Should be proxied to ActiveRecord::Generators::Base
-      # Implement the required interface for Rails::Generators::Migration.
-      def self.next_migration_number(dirname) #:nodoc:
-        if ActiveRecord::Base.timestamped_migrations
-          Time.now.utc.strftime("%Y%m%d%H%M%S")
-        else
-          "%.3d" % (current_migration_number(dirname) + 1)
-        end
       end
     end
   end

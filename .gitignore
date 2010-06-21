@@ -3,3 +3,4 @@ pkg
 doc
 *.gem
 tmp/**/*
+.DS_Store
