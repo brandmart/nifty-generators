@@ -7,8 +7,6 @@ module Nifty
     class ScaffoldGenerator < Base
       no_tasks { attr_accessor :model_name, :model_attributes, :controller_actions }
 
-      check_class_collision
-
       argument :model_name, :type => :string, :required => true, :banner => 'ModelName'
       argument :args_for_c_m, :type => :array, :default => [], :banner => 'controller_actions and model:attributes'
       
