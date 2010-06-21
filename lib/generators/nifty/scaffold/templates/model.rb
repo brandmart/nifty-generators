@@ -5,7 +5,10 @@ class <%= class_name %><%= " < #{options[:parent].classify}" if options[:parent]
 <% if options[:timestamps] -%>
   include Mongoid::Timestamps
 <% end -%>
-<%= 'include Mongoid::Versioning' if options[:versioning] -%>
+<% if options[:timestamps] -%>
+  include Mongoid::Versioning
+<% end -%>
+  
 <% model_attributes.reject{|attr| attr.reference?}.each do |attribute| -%>
   field :<%= attribute.name %>, :type => <%= attribute.type_class %>
 <% end -%>
