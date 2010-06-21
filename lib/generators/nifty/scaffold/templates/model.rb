@@ -6,10 +6,10 @@ class <%= class_name %><%= " < #{options[:parent].classify}" if options[:parent]
   include Mongoid::Timestamps
 <% end -%>
 <%= 'include Mongoid::Versioning' if options[:versioning] -%>
-<% attributes.reject{|attr| attr.reference?}.each do |attribute| -%>
+<% model_attributes.reject{|attr| attr.reference?}.each do |attribute| -%>
   field :<%= attribute.name %>, :type => <%= attribute.type_class %>
 <% end -%>
-<% attributes.select{|attr| attr.reference? }.each do |attribute| -%>
+<% model_attributes.select{|attr| attr.reference? }.each do |attribute| -%>
   embedded_in :<%= attribute.name%>, :inverse_of => :<%= class_name.tableize %>
 <% end -%>
 end
