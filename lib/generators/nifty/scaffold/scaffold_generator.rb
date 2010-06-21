@@ -13,7 +13,6 @@ module Nifty
       class_option :timestamps, :type => :boolean
       class_option :parent,     :type => :string, :desc => "The parent class for the generated model"
       class_option :versioning, :type => :boolean, :default => false, :desc => "Enable mongoid versioning"
-      class_option :embedded,   :type => :string, :default => false, :desc => "Embedded document model"
 
       class_option :skip_model, :desc => 'Don\'t generate a model.', :type => :boolean
       class_option :skip_timestamps, :desc => 'Don\'t add timestamps to migration file.', :type => :boolean

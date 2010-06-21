@@ -12,9 +12,7 @@ class <%= class_name %><%= " < #{options[:parent].classify}" if options[:parent]
 <% model_attributes.reject{|attr| attr.reference? }.each do |attribute| -%>
   field :<%= attribute.name %>, :type => <%= attribute.type_class %>
 <% end -%>
-
-<% if options[:embedded] -%>
-  embedded_in :<%= #{options[:embedded]} %>, :inverse_of => :<%= class_name.tableize %>
+<% model_attributes.select{|attr| attr.reference? }.each do |attribute| -%>
+  embedded_in :<%= attribute.name %>, :inverse_of => :<%= class_name.tableize %>
 <% end -%>
-
 end
