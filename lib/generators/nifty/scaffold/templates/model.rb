@@ -5,7 +5,7 @@ class <%= class_name %><%= " < #{options[:parent].classify}" if options[:parent]
 <% if options[:timestamps] -%>
   include Mongoid::Timestamps
 <% end -%>
-<% if options[:timestamps] -%>
+<% if options[:versioning] -%>
   include Mongoid::Versioning
 <% end -%>
   
