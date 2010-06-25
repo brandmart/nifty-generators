@@ -8,6 +8,9 @@ class <%= class_name %><%= " < #{options[:parent].classify}" if options[:parent]
 <% if options[:versioning] -%>
   include Mongoid::Versioning
 <% end -%>
+<% if options[:sluggable] -%>
+  include Mongoid::Slug
+<% end -%>
   
 <% model_attributes.reject{|attr| attr.reference? }.each do |attribute| -%>
   field :<%= attribute.name %>, :type => <%= attribute.type_class %>
